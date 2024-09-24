@@ -1,0 +1,66 @@
+# Python-specific ignores
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.so
+*.egg
+*.egg-info/
+dist/
+build/
+*.log
+
+# Virtual environments
+venv/
+.env/
+.env.*
+.pdm.toml
+poetry.lock
+
+# Poetry-specific files
+.poetry/
+.cache/
+.pyproject.toml.swp  # Swap files, if using Vim or similar editors
+
+# MacOS-specific ignores
+.DS_Store
+
+# Windows-specific ignores
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# Pytest and other testing-related files
+.pytest_cache/
+coverage/
+.coverage
+htmlcov/
+.tox/
+
+# IDEs and Editors
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+
+# Jupyter Notebooks
+.ipynb_checkpoints/
+
+# Temporary files
+*.tmp
+*.temp
+*.swp
+*.swo
+
+# Mypy cache and type-checking results
+.mypy_cache/
+dmypy.json
+.mypy_cache/
+
+# Profiling data
+*.prof
+*.dat
+
+# pytest results
+*.pytest_cache/
+.cache/
