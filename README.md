@@ -4,15 +4,15 @@ This project automates drawing in MS Paint using PyAutoGUI. The script will open
 
 ## Project Structure
 
-rpa_exercise_pyautogui_drawing/ # Source folder for the project code
-├── painter.py # Core drawing logic
-├── utils.py # Utility functions (e.g., opening/closing MS Paint, finding the canvas)
-└── main.py # Main script to run the automation
+rpa_exercise_pyautogui_drawing/ # Source folder for the project code  
+ ├── painter.py # Core drawing logic  
+ ├── utils.py # Utility functions (e.g., opening/closing MS Paint, finding the canvas)  
+ └── main.py # Main script to run the automation
 
-tests/ # Unit tests
-└── test_main.py # Tests for the main functionality
+tests/ # Unit tests  
+ └── test_main.py # Tests for the main functionality
 
-pyproject.toml # Poetry configuration file
+pyproject.toml # Poetry configuration file  
 README.md # Project documentation file
 
 ## Prerequisites
