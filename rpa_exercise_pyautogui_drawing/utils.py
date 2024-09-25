@@ -31,6 +31,7 @@ def open_paint() -> None:
         pyautogui.hotkey("p")  # Set the pen tool
     except Exception as e:
         logging.error(f"Error opening Paint: {e}")
+        raise e
 
 
 def close_paint() -> None:
@@ -50,6 +51,7 @@ def close_paint() -> None:
             logging.warning("MS Paint is not open.")
     except Exception as e:
         logging.error(f"Error closing Paint: {e}")
+        raise e
 
 
 def set_canvas_size(width: int, height: int) -> None:
@@ -64,9 +66,10 @@ def set_canvas_size(width: int, height: int) -> None:
         time.sleep(WAIT_TIME)
     except Exception as e:
         logging.error(f"Error setting canvas size: {e}")
+        raise e
 
 
-def find_canvas() -> Union[Dict[str, int], None]:
+def find_canvas() -> Union[Dict[str, int]]:
     """Find the canvas area in MS Paint."""
     try:
         canvas_location = pyautogui.locateCenterOnScreen(
@@ -87,10 +90,10 @@ def find_canvas() -> Union[Dict[str, int], None]:
         return None
     except pyautogui.ImageNotFoundException:
         logging.error("Canvas sample image not found.")
-        return None
+        raise e
     except Exception as e:
         logging.error(f"Error locating canvas: {e}")
-        return None
+        raise e
 
 
 def find_all_squares(square_count: int) -> Union[list, None]:
@@ -117,14 +120,14 @@ def find_all_squares(square_count: int) -> Union[list, None]:
         return None
 
 
-def check_if_squares_are_messed_up() -> None:
+def check_if_squares_are_messed_up() -> list:
     """Check if the squares on the canvas are messed up."""
     try:
         squares = list(pyautogui.locateAllOnScreen(SQUARE_SAMPLE_PATH, confidence=0.7))
-        return squares if squares else None
+        return squares if squares else []
     except Exception as e:
         logging.error(f"Error locating squares: {e}")
-        return None
+        return []
 
 
 def draw_random_mess(canvas_location: Dict[str, int]) -> None:
@@ -153,7 +156,7 @@ def generate_random_int(min_val: int, max_val: int) -> int:
     return random.randint(min_val, max_val)
 
 
-def is_overlapping(square1, square2):
+def is_overlapping(square1, square2) -> bool:
     """Check if two squares are overlapping."""
     x1, y1, size1 = square1
     x2, y2, size2 = square2

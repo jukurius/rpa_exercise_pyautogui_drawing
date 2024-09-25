@@ -28,6 +28,10 @@ def initialize_paint_and_canvas():
         if not canvas_location:
             raise RuntimeError("Canvas could not be found.")
         return canvas_location
+    except FileNotFoundError as e:
+        logging.error("Canvas sample image not found.")
+        close_paint()
+        raise e
     except Exception as e:
         logging.error(f"Error initializing Paint or locating canvas: {e}")
         close_paint()
