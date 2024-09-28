@@ -65,7 +65,6 @@ def main() -> None:
 
     try:
         canvas_location = initialize_paint_and_canvas()
-
         # Draw squares and validate
         if draw_squares_and_validate(canvas_location, square_count):
             # draw random lines to mess up the canvas

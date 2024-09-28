@@ -11,7 +11,7 @@ SQUARE_SAMPLE_PATH = "square_sample.png"
 DEFAULT_CANVAS_SIZE = (800, 600)
 MIN_CONFIDENCE = 0.5
 MAX_CONFIDENCE = 0.887
-CONFIDENCE_REDUCER = 0.01
+CONFIDENCE_REDUCER = 0.005
 WAIT_TIME = 1  # Default wait time between actions
 
 # Logger setup
@@ -22,25 +22,19 @@ logging.basicConfig(
 
 def open_paint() -> None:
     """Opens the MS Paint application."""
-    pyautogui.hotkey("win", "r")
-    pyautogui.typewrite("mspaint")
-    pyautogui.press("enter")
-    # If Paint doesn't open, raise an exception
-    if not wait_until_window_opens("Paint"):
-        logging.error("Error opening Paint.")
-        raise Exception("Error opening Paint.")
-    set_canvas_size(*DEFAULT_CANVAS_SIZE)
-    pyautogui.hotkey("p")  # Set the pen tool
-    # try:
-    #     pyautogui.hotkey("win", "r")
-    #     pyautogui.typewrite("mspaint")
-    #     pyautogui.press("enter")
-    #     wait_until_window_opens("Paint")
-    #     set_canvas_size(*DEFAULT_CANVAS_SIZE)
-    #     pyautogui.hotkey("p")  # Set the pen tool
-    # except Exception as e:
-    #     logging.error(f"Error opening Paint: {e}")
-    #     raise e
+    try:
+        pyautogui.hotkey("win", "r")
+        pyautogui.typewrite("mspaint")
+        pyautogui.press("enter")
+        # If Paint doesn't open, raise an exception
+        if not wait_until_window_opens("Paint"):
+            raise Exception("Error opening Paint.")
+        set_canvas_size(*DEFAULT_CANVAS_SIZE)
+        pyautogui.hotkey("p")  # Set the pen tool
+        logging.info("MS Paint has been opened and canvas created.")
+    except Exception as e:
+        logging.error(f"Error opening Paint: {e}")
+        raise e
 
 
 def close_paint() -> None:
@@ -65,24 +59,17 @@ def close_paint() -> None:
 
 def set_canvas_size(width: int, height: int) -> None:
     """Set the canvas size in MS Paint."""
-    pyautogui.hotkey("ctrl", "e")
-    time.sleep(WAIT_TIME)
-    pyautogui.typewrite(str(width))
-    pyautogui.press("tab")
-    pyautogui.typewrite(str(height))
-    pyautogui.press("enter")
-    time.sleep(WAIT_TIME)
-    # try:
-    #     pyautogui.hotkey("ctrl", "e")
-    #     time.sleep(WAIT_TIME)
-    #     pyautogui.typewrite(str(width))
-    #     pyautogui.press("tab")
-    #     pyautogui.typewrite(str(height))
-    #     pyautogui.press("enter")
-    #     time.sleep(WAIT_TIME)
-    # except Exception as e:
-    #     logging.error(f"Error setting canvas size: {e}")
-    #     raise e
+    try:
+        pyautogui.hotkey("ctrl", "e")
+        time.sleep(WAIT_TIME)
+        pyautogui.typewrite(str(width))
+        pyautogui.press("tab")
+        pyautogui.typewrite(str(height))
+        pyautogui.press("enter")
+        time.sleep(WAIT_TIME)
+    except Exception as e:
+        logging.error(f"Error setting canvas size: {e}")
+        raise e
 
 
 def find_canvas() -> Union[Dict[str, int]]:
