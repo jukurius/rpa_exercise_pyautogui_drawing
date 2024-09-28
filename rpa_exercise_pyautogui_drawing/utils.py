@@ -22,16 +22,25 @@ logging.basicConfig(
 
 def open_paint() -> None:
     """Opens the MS Paint application."""
-    try:
-        pyautogui.hotkey("win", "r")
-        pyautogui.typewrite("mspaint")
-        pyautogui.press("enter")
-        wait_until_window_opens("Paint")
-        set_canvas_size(*DEFAULT_CANVAS_SIZE)
-        pyautogui.hotkey("p")  # Set the pen tool
-    except Exception as e:
-        logging.error(f"Error opening Paint: {e}")
-        raise e
+    pyautogui.hotkey("win", "r")
+    pyautogui.typewrite("mspaint")
+    pyautogui.press("enter")
+    # If Paint doesn't open, raise an exception
+    if not wait_until_window_opens("Paint"):
+        logging.error("Error opening Paint.")
+        raise Exception("Error opening Paint.")
+    set_canvas_size(*DEFAULT_CANVAS_SIZE)
+    pyautogui.hotkey("p")  # Set the pen tool
+    # try:
+    #     pyautogui.hotkey("win", "r")
+    #     pyautogui.typewrite("mspaint")
+    #     pyautogui.press("enter")
+    #     wait_until_window_opens("Paint")
+    #     set_canvas_size(*DEFAULT_CANVAS_SIZE)
+    #     pyautogui.hotkey("p")  # Set the pen tool
+    # except Exception as e:
+    #     logging.error(f"Error opening Paint: {e}")
+    #     raise e
 
 
 def close_paint() -> None:
@@ -56,17 +65,24 @@ def close_paint() -> None:
 
 def set_canvas_size(width: int, height: int) -> None:
     """Set the canvas size in MS Paint."""
-    try:
-        pyautogui.hotkey("ctrl", "e")
-        time.sleep(WAIT_TIME)
-        pyautogui.typewrite(str(width))
-        pyautogui.press("tab")
-        pyautogui.typewrite(str(height))
-        pyautogui.press("enter")
-        time.sleep(WAIT_TIME)
-    except Exception as e:
-        logging.error(f"Error setting canvas size: {e}")
-        raise e
+    pyautogui.hotkey("ctrl", "e")
+    time.sleep(WAIT_TIME)
+    pyautogui.typewrite(str(width))
+    pyautogui.press("tab")
+    pyautogui.typewrite(str(height))
+    pyautogui.press("enter")
+    time.sleep(WAIT_TIME)
+    # try:
+    #     pyautogui.hotkey("ctrl", "e")
+    #     time.sleep(WAIT_TIME)
+    #     pyautogui.typewrite(str(width))
+    #     pyautogui.press("tab")
+    #     pyautogui.typewrite(str(height))
+    #     pyautogui.press("enter")
+    #     time.sleep(WAIT_TIME)
+    # except Exception as e:
+    #     logging.error(f"Error setting canvas size: {e}")
+    #     raise e
 
 
 def find_canvas() -> Union[Dict[str, int]]:
@@ -170,7 +186,12 @@ def wait_until_window_opens(window_name: str, timeout=10) -> bool:
     """Wait until a window with the specified name is opened."""
     start_time = time.time()
     while time.time() - start_time < timeout:
-        if any(window for window in gw.getAllWindows() if window_name in window.title):
+        matching_windows = [
+            window for window in gw.getAllWindows() if window_name in window.title
+        ]
+        if matching_windows:
+            # Activate the first matching window
+            matching_windows[0].activate()
             return True
         time.sleep(0.5)
     logging.error(f"Window '{window_name}' did not open within {timeout} seconds.")
