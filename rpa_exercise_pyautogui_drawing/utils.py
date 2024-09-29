@@ -11,7 +11,7 @@ SQUARE_SAMPLE_PATH = "square_sample.png"
 DEFAULT_CANVAS_SIZE = (800, 600)
 MIN_CONFIDENCE = 0.5
 MAX_CONFIDENCE = 0.887
-CONFIDENCE_REDUCER = 0.005
+CONFIDENCE_REDUCER = 0.002
 WAIT_TIME = 1  # Default wait time between actions
 
 # Logger setup
@@ -90,6 +90,8 @@ def find_canvas() -> Union[Dict[str, int]]:
                     "height": canvas_size.height,
                 }
         logging.warning("Canvas not found.")
+        # Return None if canvas is not found for handling the case in the caller function
+        # This is the backup if ImageNotFoundException is not raised
         return None
     except pyautogui.ImageNotFoundException:
         logging.error("Canvas sample image not found.")
@@ -115,6 +117,7 @@ def find_all_squares(square_count: int) -> Union[list, None]:
         squares = list(
             pyautogui.locateAllOnScreen(SQUARE_SAMPLE_PATH, confidence=confidence)
         )
+        logging.info(f"Found {len(squares)} squares")
 
     if len(squares) >= square_count:
         return squares
