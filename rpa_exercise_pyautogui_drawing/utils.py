@@ -117,7 +117,6 @@ def find_all_squares(square_count: int) -> Union[list, None]:
         squares = list(
             pyautogui.locateAllOnScreen(SQUARE_SAMPLE_PATH, confidence=confidence)
         )
-        logging.info(f"Found {len(squares)} squares")
 
     if len(squares) >= square_count:
         return squares
